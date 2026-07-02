@@ -25,3 +25,7 @@ CodeFormer/
 
 # CodeFormer's downloaded weights
 weights/
+
+# Test/intermediate frame folders (any variant)
+temp_frames*/
+enhanced_frames*/
