@@ -19,3 +19,9 @@ __pycache__/
 # OS-specific junk files
 .DS_Store
 Thumbs.db
+
+# CodeFormer (cloned separately, not part of our repo)
+CodeFormer/
+
+# CodeFormer's downloaded weights
+weights/
