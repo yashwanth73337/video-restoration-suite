@@ -1,0 +1,21 @@
+# Virtual environment
+video-restoration-venv/
+
+# Model weights (large files, downloaded separately)
+models/
+
+# Video data (not code, too large for git)
+input_videos/
+output_videos/
+temp_frames/
+
+# Secrets
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# OS-specific junk files
+.DS_Store
+Thumbs.db
