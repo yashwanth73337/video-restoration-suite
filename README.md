@@ -1,6 +1,6 @@
 # AI Video Super-Resolution Suite
 
-Enhance low-resolution video using Real-ESRGAN-based AI upscaling, with an end-to-end pipeline (frame extraction → AI enhancement → reassembly with original audio) and a Streamlit web interface.
+Enhance low-resolution video into a sharper, higher-resolution version using Real-ESRGAN-based AI upscaling, with an end-to-end pipeline (frame extraction → AI enhancement → reassembly with original audio) and a Streamlit web interface.
 
 ## Demo
 
@@ -12,7 +12,7 @@ Enhance low-resolution video using Real-ESRGAN-based AI upscaling, with an end-t
 
 ## Overview
 
-This tool takes a low-resolution video and produces a higher-resolution, sharper version using AI-based super-resolution, while preserving the original audio track.
+This tool takes a low-resolution video (e.g. 360p) and produces a higher-resolution, sharper version (e.g. 1080p) using AI-based super-resolution, while preserving the original audio track. It is an **enhancement/upscaling** tool, not a damage-repair tool - it improves clarity and resolution on clean low-res footage, rather than fixing scratches, artifacts, or corruption in already-degraded film.
 
 **Pipeline:** extract frames (ffmpeg) → upscale each frame (Real-ESRGAN) → optional sharpening/color grading → reassemble into video with original audio (ffmpeg).
 
@@ -44,7 +44,7 @@ Real-ESRGAN's GAN-trained checkpoint (`RealESRGAN_x4plus.pth`) produces strong r
 
 ### Why no face-specific restoration (GFPGAN / CodeFormer)
 
-Both were evaluated. GFPGAN's `weight` parameter was found to have no effect in the `arch="clean"` checkpoint (confirmed via byte-identical output at different weight values). CodeFormer's fidelity parameter does work, but even at maximum fidelity, it visibly altered a clearly-resolved actor's face (hairstyle, eye color) - a real identity-preservation risk. Since this tool may be used on footage of real, identifiable people, generative face reconstruction was judged too risky in favor of general (non-face-specific) enhancement that only amplifies real pixel data rather than generating new facial features from a learned prior.
+Both were evaluated for potential inclusion. GFPGAN's `weight` parameter was found to have no effect in the `arch="clean"` checkpoint (confirmed via byte-identical output at different weight values). CodeFormer's fidelity parameter does work, but even at maximum fidelity, it visibly altered a clearly-resolved actor's face (hairstyle, eye color) - a real identity-preservation risk. Since this tool may be used on footage of real, identifiable people, generative face reconstruction was judged too risky in favor of general (non-face-specific) enhancement that only amplifies real pixel data rather than generating new facial features from a learned prior.
 
 ### Why contrast/saturation are off by default
 
@@ -54,7 +54,8 @@ Initial testing used aggressive contrast (1.5x) and saturation (1.5x) boosts, tu
 
 - **Cannot reconstruct information that was never captured.** Upscaling a 360p video to 1080p improves clarity and adds plausible detail, but it is not equivalent to a genuinely-captured 1080p source - fine detail is a model estimate, not recovered original data.
 - **Dense, repetitive textures (large crowds, thick foliage) remain the hardest case** even after switching models - meaningfully improved, but not perfect.
-- **Face restoration is not included** by design (see above) - faces are upscaled at the same fidelity as the rest of the frame, not specifically reconstructed.
+- **Face-specific enhancement is not included** by design (see above) - faces are upscaled at the same fidelity as the rest of the frame, not specifically reconstructed. Fine facial/skin detail improves less dramatically than structured content like buildings or text.
+- **Not designed for damaged/corrupted footage** - this tool increases resolution and sharpness on otherwise-clean low-res video; it does not repair scratches, compression artifacts, or physical film damage.
 - **Processing time scales with resolution and frame count.** A short clip upscaled to 1080p on an 8GB GPU takes a few minutes; long or high-resolution videos are not currently practical on this hardware without further optimization (tiling, batching, or a lighter model).
 
 ## Hardware Notes (8GB VRAM)
@@ -124,7 +125,7 @@ Upload a video, choose settings, and download the enhanced result directly from 
 ## Project Structure
 
 ```
-video-restoration-suite/
+video-super-resolution-suite/
 ├── src/
 │   ├── extract_frames.py
 │   ├── enhance_frames.py
